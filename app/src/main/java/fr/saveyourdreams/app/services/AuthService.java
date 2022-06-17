@@ -2,7 +2,6 @@ package fr.saveyourdreams.app.services;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.ArraySet;
 import android.util.Log;
 
 import java.sql.Date;
@@ -14,6 +13,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import fr.saveyourdreams.app.R;
 import fr.saveyourdreams.app.models.Marker;
 import fr.saveyourdreams.app.models.User;
 import fr.saveyourdreams.app.repositories.Database;
@@ -40,13 +40,13 @@ public class AuthService {
 
     /**
      * Verifier si les infos de connexion son juste
-     *
-     * @param username
+     *  @param username
      * @param password
      * @param callback      pour récupérer si oui ou non les informations de connexion son juste
      * @param errorCallback
+     * @param context
      */
-    public void verify(String username, String password, AuthVerificationCallback callback, AsyncCallback.ErrorCallback errorCallback) {
+    public void verify(String username, String password, AuthVerificationCallback callback, AsyncCallback.ErrorCallback errorCallback, Context context) {
         // On va verifier dans la base de donnée si le mot de passe est bon
         // @TODO: Pour plus de sécurité on pourrait chiffrer les mots de passe avec SHA512 ou bcrypt par exemple mais ici, volontairement on ne le fait pas
         // Comme on fait un appel a la base de donnée, forcément on se cale dans un nouveau thread
@@ -57,7 +57,7 @@ public class AuthService {
                     Database.getInstance().connect();
                 } catch (ClassNotFoundException | SQLException e) {
                     e.printStackTrace();
-                    errorCallback.get("Unable to connect to DB");
+                    errorCallback.get(context.getString(R.string.DB_ERROR_CONNECT));
                     return;
                 }
             }
@@ -81,7 +81,7 @@ public class AuthService {
                 return;
             } catch (SQLException e) {
                 e.printStackTrace();
-                errorCallback.get("Unable to execute request");
+                errorCallback.get(context.getString(R.string.DB_REQUEST_EXECUTE_ERROR));
                 return;
             }
         }).start();
@@ -98,7 +98,7 @@ public class AuthService {
                     Database.getInstance().connect();
                 } catch (ClassNotFoundException | SQLException e) {
                     e.printStackTrace();
-                    errorCallback.get("Unable to connect to DB");
+                    errorCallback.get(context.getString(R.string.DB_ERROR_CONNECT));
                     return;
                 }
             }
@@ -136,7 +136,7 @@ public class AuthService {
                         connectedUser.setMarkers(markers);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        errorCallback.get("Unable to fetch markers");
+                        errorCallback.get(context.getString(R.string.DB_ERROR_FETCH_USER_MARKERS));
                         return;
                     }
 
@@ -144,13 +144,13 @@ public class AuthService {
                     Log.d("SAVE_YOUR_DREAMS", "user connected !");
                     callback.get(true);
                 } else {
-                    errorCallback.get("Compte inexistant");
+                    errorCallback.get(context.getString(R.string.USER_NOT_EXISTS));
                 }
 
                 return;
             } catch (SQLException e) {
                 e.printStackTrace();
-                errorCallback.get("Unable to execute request");
+                errorCallback.get(context.getString(R.string.DB_REQUEST_EXECUTE_ERROR));
                 return;
             }
         }).start();
@@ -165,14 +165,14 @@ public class AuthService {
         Log.d("SAVE_YOUR_DREAMS", "Disconnect user");
     }
 
-    public void exists(String username, AuthVerificationCallback callback, AsyncCallback.ErrorCallback errorCallback) {
+    public void exists(Context context, String username, AuthVerificationCallback callback, AsyncCallback.ErrorCallback errorCallback) {
         new Thread(() -> {
             if (!Database.getInstance().isConnected()) {
                 try {
                     Database.getInstance().connect();
                 } catch (ClassNotFoundException | SQLException e) {
                     e.printStackTrace();
-                    errorCallback.get("Unable to connect to DB");
+                    errorCallback.get(context.getString(R.string.DB_ERROR_CONNECT));
                     return;
                 }
             }
@@ -187,7 +187,7 @@ public class AuthService {
                 return;
             } catch (SQLException e) {
                 e.printStackTrace();
-                errorCallback.get("Unable to execute request");
+                errorCallback.get(context.getString(R.string.DB_REQUEST_EXECUTE_ERROR));
                 return;
             }
         }).start();
@@ -200,7 +200,7 @@ public class AuthService {
                     Database.getInstance().connect();
                 } catch (ClassNotFoundException | SQLException e) {
                     e.printStackTrace();
-                    errorCallback.get("Unable to connect to DB");
+                    errorCallback.get(context.getString(R.string.DB_ERROR_CONNECT));
                     return;
                 }
             }
@@ -214,10 +214,10 @@ public class AuthService {
                 if (saved)
                     callback.get(true);
                 else
-                    errorCallback.get("Unable to save User to DB");
+                    errorCallback.get(context.getString(R.string.DB_SAVE_USER_ERROR));
             } catch (Exception e) {
                 e.printStackTrace();
-                errorCallback.get("Unable to save User to DB");
+                errorCallback.get(context.getString(R.string.DB_REQUEST_EXECUTE_ERROR));
                 return;
             }
 

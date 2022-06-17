@@ -35,27 +35,27 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (username.getText().toString().isEmpty()) {
                     Log.d("SAVE_YOUR_DREAMS", "Username is missing");
-                    username.setError("Merci d'indiquer un nom d'utilisateur");
+                    username.setError(getString(R.string.USERNAME_MISING));
                 } else if (password.getText().toString().isEmpty()) {
                     Log.d("SAVE_YOUR_DREAMS", "Password is missing");
-                    password.setError("Merci d'indiquer un mot de passe");
+                    password.setError(getString(R.string.PASSWORD_MISSING));
                 } else {
                     AuthService authService = new AuthService();
                     authService
-                            .exists(username.getText().toString(),
+                            .exists(view.getContext(), username.getText().toString(),
                                     status -> {
                                         Log.d("SAVE_YOUR_DREAMS", "username=" + username.getText().toString() + ", username is free ?=" + status);
                                         if (!status) {
                                             authService.register(view.getContext(), username.getText().toString(), password.getText().toString(),
                                                     (ignored) -> runOnUiThread(() -> {
-                                                        Toast.makeText(view.getContext(), "Inscrit avec success !", Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(view.getContext(), getString(R.string.REGISTER_SUCCESS), Toast.LENGTH_LONG).show();
                                                         Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
                                                         startActivity(i);
                                                         finish();
                                                     }),
-                                                    (error) -> runOnUiThread(() -> Toast.makeText(view.getContext(), "Impossible de s'inscrire", Toast.LENGTH_LONG).show()));
+                                                    (error) -> runOnUiThread(() -> Toast.makeText(view.getContext(), getString(R.string.ERROR_REGISTER), Toast.LENGTH_LONG).show()));
                                         } else {
-                                            runOnUiThread(() -> Toast.makeText(view.getContext(), "Nom d'utilisateur non disponible", Toast.LENGTH_LONG).show());
+                                            runOnUiThread(() -> Toast.makeText(view.getContext(), getString(R.string.USERNAME_ALREADY_EXISTS), Toast.LENGTH_LONG).show());
                                             username.setError("Incorrect");
                                         }
                                     },

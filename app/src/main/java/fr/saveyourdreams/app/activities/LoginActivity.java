@@ -33,10 +33,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (username.getText().toString().isEmpty()) {
                     Log.d("SAVE_YOUR_DREAMS", "Username is missing");
-                    username.setError("Merci d'indiquer un nom d'utilisateur");
+                    username.setError(getString(R.string.USERNAME_MISING));
                 } else if (password.getText().toString().isEmpty()) {
                     Log.d("SAVE_YOUR_DREAMS", "Password is missing");
-                    password.setError("Merci d'indiquer un mot de passe");
+                    password.setError(getString(R.string.PASSWORD_MISSING));
                 } else {
                     AuthService authService = new AuthService();
                     authService
@@ -46,14 +46,14 @@ public class LoginActivity extends AppCompatActivity {
                                         if (status) {
                                             authService.login(view.getContext(), username.getText().toString(),
                                                     (ignored) -> runOnUiThread(() -> {
-                                                        Toast.makeText(view.getContext(), "Connecté avec success !", Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(view.getContext(), getString(R.string.LOGIN_SUCCESS), Toast.LENGTH_LONG).show();
                                                         Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                                         startActivity(i);
                                                         finish();
                                                     }),
-                                                    (error) -> runOnUiThread(() -> Toast.makeText(view.getContext(), "Nom d'utilisateur ou mot de passe pas bon", Toast.LENGTH_LONG).show()));
+                                                    (error) -> runOnUiThread(() -> Toast.makeText(view.getContext(), getString(R.string.LOGIN_BAD_USERNAME_OR_PASSWORD), Toast.LENGTH_LONG).show()));
                                         } else {
-                                            runOnUiThread(() -> Toast.makeText(view.getContext(), "Nom d'utilisateur ou mot de passe pas bon", Toast.LENGTH_LONG).show());
+                                            runOnUiThread(() -> Toast.makeText(view.getContext(), getString(R.string.LOGIN_BAD_USERNAME_OR_PASSWORD), Toast.LENGTH_LONG).show());
                                             username.setError("Incorrect");
                                             password.setError("Incorrect");
                                         }
@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                                     error ->
                                             // Pour pouvoir lancer le toast, il faut forcement etre dans le UI thread
                                             // Sauf que ce code la est executé dans un thread autre, alors il faut appeller la fonction runOnUiThread pour faire ça
-                                            runOnUiThread(() -> Toast.makeText(view.getContext(), error, Toast.LENGTH_LONG).show()));
+                                            runOnUiThread(() -> Toast.makeText(view.getContext(), error, Toast.LENGTH_LONG).show()), view.getContext());
                 }
 
                 break;

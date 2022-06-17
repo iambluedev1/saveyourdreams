@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Save your dreams</string>
+    <string name="action_settings">Paramètres</string>
+
+    <string name="tab_text_1">Carte</string>
+    <string name="tab_text_2">Liste</string>
+    <string name="mot_de_passe">Mot de passe</string>
+    <string name="nom_d_utilisateur">Nom d\'utilisateur</string>
+    <string name="connexion">Connexion</string>
+    <string name="USERNAME_MISING">Merci d\'indiquer un nom d\'utilisateur</string>
+    <string name="PASSWORD_MISSING">Merci d\'indiquer un mot de passe</string>
+    <string name="LOGIN_SUCCESS">Connecté avec success !</string>
+    <string name="LOGIN_BAD_USERNAME_OR_PASSWORD">Nom d\'utilisateur ou mot de passe pas bon</string>
+    <string name="REGISTER_SUCCESS">Inscrit avec success !</string>
+    <string name="USERNAME_ALREADY_EXISTS">Nom d\'utilisateur non disponible</string>
+    <string name="ERROR_REGISTER">Impossible de s\'inscrire</string>
+    <string name="DB_ERROR_CONNECT">Connexion à la base de donnée impossible</string>
+    <string name="DB_REQUEST_EXECUTE_ERROR">Impossible de traiter cette demande</string>
+    <string name="DB_SAVE_USER_ERROR">Une erreur est survenue lors de la création du compte</string>
+    <string name="USER_NOT_EXISTS">Compte inexistant</string>
+    <string name="DB_ERROR_FETCH_USER_MARKERS">Impossible de récupérer les marqueurs</string>
+    <string name="LOCATION_MISSING_PERMISSION">Merci d\'autorisé la localisation dans les permissions de l\'application</string>
+    <string name="LOCATION_ADDRESS_NOT_FOUND">Aucune addresse n\'est trouvée</string>
+    <string name="LOCATION_ERROR_GEOCODER">Impossible de récupérer les informations de la position</string>
+    <string name="REGISTER">Inscription</string>
+</resources>

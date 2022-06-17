@@ -53,6 +53,7 @@
                     android:layout_marginTop="57.7dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="@string/connexion"
+                    android:textAllCaps="true"
                     android:textColor="#030303"
                     android:textSize="31.3sp" />
 
@@ -171,7 +172,8 @@
                 android:fontFamily="@font/poppins_regular"
                 android:gravity="center_horizontal"
                 android:onClick="onClick"
-                android:text="Inscription"
+                android:text="@string/REGISTER"
+                android:textAllCaps="false"
                 android:textColor="#ffffff"
                 android:textSize="15sp" />
 

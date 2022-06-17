@@ -52,7 +52,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="57.7dp"
                     android:fontFamily="@font/poppins_semibold"
-                    android:text="Inscription"
+                    android:text="@string/REGISTER"
+                    android:textAllCaps="true"
                     android:textColor="#030303"
                     android:textSize="31.3sp" />
 
@@ -169,9 +170,9 @@
                 android:clickable="true"
                 android:fontFamily="@font/poppins_regular"
                 android:gravity="center_horizontal"
-                android:text="Connexion"
-                android:textColor="#ffffff"
                 android:onClick="onClick"
+                android:text="@string/connexion"
+                android:textColor="#ffffff"
                 android:textSize="15sp" />
 
 

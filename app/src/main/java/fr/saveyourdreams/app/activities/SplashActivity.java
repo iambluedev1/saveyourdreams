@@ -44,7 +44,7 @@ public class SplashActivity extends AppCompatActivity {
                 // On nettoie l'activity courante car on en a plus besoin
                 finish();
             } catch (ClassNotFoundException | SQLException e) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Unable to connect to db", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.DB_ERROR_CONNECT), Toast.LENGTH_LONG);
                 toast.show();
                 e.printStackTrace();
             }

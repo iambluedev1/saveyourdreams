@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import fr.saveyourdreams.app.R;
 import fr.saveyourdreams.app.utils.AsyncCallback;
 
 public class LocationService {
@@ -30,7 +31,7 @@ public class LocationService {
 
         if (PermissionService.has(context, Manifest.permission.ACCESS_FINE_LOCATION) && PermissionService.has(context, Manifest.permission.ACCESS_COARSE_LOCATION)) {
             Log.d("SAVE_YOUR_DREAMS", "Na pas les permissions pour ça");
-            errorCallback.get("Merci d'autorisé la localisation dans les permissions de l'application");
+            errorCallback.get(context.getString(R.string.LOCATION_MISSING_PERMISSION));
             return;
         }
 
@@ -51,12 +52,12 @@ public class LocationService {
         try {
             List<Address> addresses = gc.getFromLocation(coords.latitude, coords.longitude, 1);
             if (addresses.isEmpty()) {
-                errorCallback.get("Aucune addresse n'est trouvée");
+                errorCallback.get(context.getString(R.string.LOCATION_ADDRESS_NOT_FOUND));
             } else {
                 callback.get(addresses.get(0));
             }
         } catch (IOException e) {
-            errorCallback.get("Impossible de récupérer les informations de la position");
+            errorCallback.get(context.getString(R.string.LOCATION_ERROR_GEOCODER));
             e.printStackTrace();
         }
     }
