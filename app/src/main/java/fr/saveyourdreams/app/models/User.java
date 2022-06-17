@@ -1,6 +1,9 @@
 package fr.saveyourdreams.app.models;
 
+import android.util.ArraySet;
+
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 
 public class User {
@@ -10,6 +13,8 @@ public class User {
     private String username;
 
     private Instant createdAt;
+
+    private Set<Marker> markers = new ArraySet<>();
 
     public UUID getId() {
         return id;
@@ -28,6 +33,14 @@ public class User {
     public User setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
         return this;
+    }
+
+    public void setMarkers(Set<Marker> markers) {
+        this.markers = markers;
+    }
+
+    public Set<Marker> getMarkers() {
+        return markers;
     }
 
     public Instant getCreatedAt() {

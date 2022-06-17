@@ -8,10 +8,15 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import fr.saveyourdreams.app.models.Marker;
 import fr.saveyourdreams.app.models.User;
 import fr.saveyourdreams.app.repositories.Database;
+import fr.saveyourdreams.app.repositories.MarkerRepository;
 import fr.saveyourdreams.app.utils.AsyncCallback;
 
 public class AuthService {
@@ -119,6 +124,21 @@ public class AuthService {
                     connectedUser.setId(id);
                     connectedUser.setUsername(username);
                     connectedUser.setCreatedAt(createdAt.toInstant());
+
+                    try {
+                        Set<Marker> markers = Stream.concat(
+                                MarkerRepository.getMakersFromUser(connectedUser).stream(),
+                                MarkerRepository.getMakersSharedWithUser(connectedUser).stream()
+                        ).collect(Collectors.toSet());
+                        
+                        Log.d("SAVE_YOUR_DREAMS", "Fetched " + markers.size() + " markers");
+                        connectedUser.setMarkers(markers);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        errorCallback.get("Unable to fetch markers");
+                        return;
+                    }
+
 
                     Log.d("SAVE_YOUR_DREAMS", "user connected !");
                     callback.get(true);

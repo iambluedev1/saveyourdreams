@@ -35,6 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import fr.saveyourdreams.app.R;
 import fr.saveyourdreams.app.databinding.FragmentMainBinding;
 import fr.saveyourdreams.app.repositories.FakeDb;
+import fr.saveyourdreams.app.services.AuthService;
 
 public class MapFragment extends Fragment {
 
@@ -92,7 +93,7 @@ public class MapFragment extends Fragment {
 
         Log.d("SAVE_YOUR_DREAMS", FakeDb.markers.size() + "");
 
-        FakeDb.markers.forEach((marker) -> {
+        AuthService.connectedUser.getMarkers().forEach((marker) -> {
             LatLng latLng = new LatLng(marker.getLat(), marker.getLng());
             Log.d("SAVE_YOUR_DREAMS", "Loading marker" + marker.toString());
             Glide
