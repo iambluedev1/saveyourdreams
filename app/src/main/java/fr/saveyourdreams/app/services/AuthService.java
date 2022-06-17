@@ -2,6 +2,7 @@ package fr.saveyourdreams.app.services;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.ArraySet;
 import android.util.Log;
 
 import java.sql.Date;
@@ -130,7 +131,7 @@ public class AuthService {
                                 MarkerRepository.getMakersFromUser(connectedUser).stream(),
                                 MarkerRepository.getMakersSharedWithUser(connectedUser).stream()
                         ).collect(Collectors.toSet());
-                        
+
                         Log.d("SAVE_YOUR_DREAMS", "Fetched " + markers.size() + " markers");
                         connectedUser.setMarkers(markers);
                     } catch (Exception e) {
@@ -162,5 +163,64 @@ public class AuthService {
         editor.commit();
 
         Log.d("SAVE_YOUR_DREAMS", "Disconnect user");
+    }
+
+    public void exists(String username, AuthVerificationCallback callback, AsyncCallback.ErrorCallback errorCallback) {
+        new Thread(() -> {
+            if (!Database.getInstance().isConnected()) {
+                try {
+                    Database.getInstance().connect();
+                } catch (ClassNotFoundException | SQLException e) {
+                    e.printStackTrace();
+                    errorCallback.get("Unable to connect to DB");
+                    return;
+                }
+            }
+
+            try {
+                // Il est préférable d'utiliser des requetes préparées pour eviter du SQL injection...
+                PreparedStatement stmt = Database.getInstance().getConnection().prepareStatement("SELECT username FROM users WHERE username = ?");
+                stmt.setString(1, username);
+                ResultSet rs = stmt.executeQuery();
+
+                callback.get(rs.next());
+                return;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                errorCallback.get("Unable to execute request");
+                return;
+            }
+        }).start();
+    }
+
+    public void register(Context context, String username, String password, LoginCallback callback, AsyncCallback.ErrorCallback errorCallback) {
+        new Thread(() -> {
+            if (!Database.getInstance().isConnected()) {
+                try {
+                    Database.getInstance().connect();
+                } catch (ClassNotFoundException | SQLException e) {
+                    e.printStackTrace();
+                    errorCallback.get("Unable to connect to DB");
+                    return;
+                }
+            }
+
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(password);
+
+            try {
+                boolean saved = user.save();
+                if (saved)
+                    callback.get(true);
+                else
+                    errorCallback.get("Unable to save User to DB");
+            } catch (Exception e) {
+                e.printStackTrace();
+                errorCallback.get("Unable to save User to DB");
+                return;
+            }
+
+        }).start();
     }
 }
