@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Save your dreams</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="tab_text_1">Carte</string>
+    <string name="tab_text_2">Liste</string>
+    <string name="mot_de_passe">Mot de passe</string>
+    <string name="nom_d_utilisateur">Nom d\'utilisateur</string>
+    <string name="connexion">CONNEXION</string>
+</resources>
