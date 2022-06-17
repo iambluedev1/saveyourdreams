@@ -6,9 +6,7 @@ import java.time.Instant;
 import java.util.Set;
 import java.util.UUID;
 
-public class Group {
-
-    private UUID id;
+public class Group extends Model {
 
     private String title;
 
@@ -16,19 +14,7 @@ public class Group {
 
     private Set<User> sharedWithUsers = new ArraySet<>();
 
-
     private Set<Marker> markers = new ArraySet<>();
-
-    private Instant createdAt;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public Group setId(UUID id) {
-        this.id = id;
-        return this;
-    }
 
     public String getTitle() {
         return title;
@@ -45,15 +31,6 @@ public class Group {
 
     public Group setAuthor(User author) {
         this.author = author;
-        return this;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Group setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
         return this;
     }
 
@@ -95,5 +72,10 @@ public class Group {
                 ", markers=" + markers +
                 ", createdAt=" + createdAt +
                 '}';
+    }
+
+    @Override
+    public boolean save() {
+        return false;
     }
 }

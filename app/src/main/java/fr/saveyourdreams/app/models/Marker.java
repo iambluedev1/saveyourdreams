@@ -1,19 +1,10 @@
 package fr.saveyourdreams.app.models;
 
-import android.os.Build;
 import android.util.ArraySet;
-
-import androidx.annotation.RequiresApi;
-
-import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
-public class Marker {
-
-    private UUID id;
+public class Marker extends Model {
 
     private String title;
 
@@ -35,18 +26,7 @@ public class Marker {
 
     private Set<User> sharedWithUsers = new ArraySet<>();
 
-    private Instant createdAt;
-
     private Group group;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public Marker setId(UUID id) {
-        this.id = id;
-        return this;
-    }
 
     public String getTitle() {
         return title;
@@ -148,15 +128,6 @@ public class Marker {
         return this;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Marker setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
     public Optional<Group> getGroup() {
         return Optional.ofNullable(group);
     }
@@ -178,5 +149,10 @@ public class Marker {
                 ", createdAt=" + createdAt +
                 ", group=" + group +
                 '}';
+    }
+
+    @Override
+    public boolean save() {
+        return false;
     }
 }

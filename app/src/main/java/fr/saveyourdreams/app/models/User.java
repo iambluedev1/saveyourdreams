@@ -6,45 +6,41 @@ import java.time.Instant;
 import java.util.Set;
 import java.util.UUID;
 
-public class User {
+import fr.saveyourdreams.app.repositories.UserRepository;
 
-    private UUID id;
+public class User extends Model {
 
     private String username;
 
-    private Instant createdAt;
-
     private Set<Marker> markers = new ArraySet<>();
 
-    public UUID getId() {
-        return id;
-    }
-
-    public User setId(UUID id) {
-        this.id = id;
-        return this;
-    }
+    private String password;
 
     public User setUsername(String username) {
         this.username = username;
         return this;
     }
 
-    public User setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
-    public void setMarkers(Set<Marker> markers) {
+    public User setMarkers(Set<Marker> markers) {
         this.markers = markers;
+        return this;
     }
 
     public Set<Marker> getMarkers() {
         return markers;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
+    public String getPassword() {
+        return password;
+    }
+
+    public User setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     @Override
@@ -54,5 +50,11 @@ public class User {
                 ", username='" + username + '\'' +
                 ", createdAt=" + createdAt +
                 '}';
+    }
+
+    @Override
+    //@TODO: on peut certainement generaliser cette fonction a tous les models sans avoir a la redéfinir à chaque fois
+    public boolean save() throws Exception {
+        return new UserRepository().save(this);
     }
 }

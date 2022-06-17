@@ -21,8 +21,11 @@ public class MarkerRepository {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-            markers.add(new Marker()
-                    .setId(UUID.fromString(rs.getString("id")))
+            Marker marker = new Marker();
+            marker.setId(UUID.fromString(rs.getString("id")));
+            marker.setCreatedAt(rs.getDate("created_at").toInstant());
+
+            markers.add(marker
                     .setTitle(rs.getString("title"))
                     .setDescription(rs.getString("description"))
                     .setAuthor(user)
@@ -31,7 +34,6 @@ public class MarkerRepository {
                     .setLng(rs.getFloat("lng"))
                     .setStreetName(rs.getString("street"))
                     .setZipCode(rs.getString("zipCode") == null ? null : Integer.valueOf(rs.getString("zipcode")))
-                    .setCreatedAt(rs.getDate("created_at").toInstant())
             );
         }
 
@@ -45,8 +47,11 @@ public class MarkerRepository {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-            markers.add(new Marker()
-                    .setId(UUID.fromString(rs.getString("id")))
+            Marker marker = new Marker();
+            marker.setId(UUID.fromString(rs.getString("id")));
+            marker.setCreatedAt(rs.getDate("created_at").toInstant());
+
+            markers.add(marker
                     .setTitle(rs.getString("title"))
                     .setDescription(rs.getString("description"))
                     .setAuthor(UserRepository.byId(rs.getString("author")))
@@ -55,7 +60,6 @@ public class MarkerRepository {
                     .setLng(rs.getFloat("lng"))
                     .setStreetName(rs.getString("street"))
                     .setZipCode(rs.getString("zipCode") == null ? null : Integer.valueOf(rs.getString("zipcode")))
-                    .setCreatedAt(rs.getDate("created_at").toInstant())
             );
         }
 
